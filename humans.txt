@@ -1,0 +1,16 @@
+/* TEAM */
+
+Your title: Ryan Parr                                                              
+Location: Portland, OR
+
+Your title: Ryan Legler                                            
+Twitter: @ryanlegler                        
+Location: Portland, OR
+
+
+/* SITE */
+                       
+Last update: 02-05-2013                          
+Standards: HTML5, CSS3                      
+Components: jQuery, impress.js, backbone.js, underscore.js, handlebars.js, underscore.js, sugar.js
+                            
