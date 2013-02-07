@@ -33,11 +33,22 @@ var LargeView = Backbone.View.extend({
 	id: "main",
 	className: "large show",
 	template: Handlebars.compile($('#large_tmpl').html()),
+	initialize: function(options) { 
+	    _.bindAll(this, 'beforeRender', 'render', 'afterRender'); 
+	    var _this = this; 
+	    this.render = _.wrap(this.render, function(render) { 
+	      _this.beforeRender(); 
+	      render(); 
+	      _this.afterRender(); 
+	      return _this; 
+	    }); 
+  	},
+	beforeRender: function() { 
+    	console.log('beforeRender'); 
+  	},
 	render: function () {
 		data = this.collection.toJSON();
-		
-		
-		
+
 		var haveData = (data[0].posts) ? data[0].posts.length : '';
 		
 		if(haveData != 0) {
@@ -93,15 +104,13 @@ var LargeView = Backbone.View.extend({
 			this.$el.find("#bottomright").prepend(result);
 			this.$el.find("#bottom").prepend(result);
 			this.$el.find("#bottomleft").prepend(result);
-			
-			this.loadPlugins();
 		} else {
 			$("#started").removeClass("appstarted");
 			$("#error").addClass("errorthrown");
 		}
 		return this;
 	},
-	loadPlugins: function() {
+	afterRender: function() {
 		
 			//hide/show elements
 			setTimeout(function(){
