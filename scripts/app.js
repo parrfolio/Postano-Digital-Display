@@ -45,21 +45,55 @@ var LargeView = Backbone.View.extend({
 			var GMTOffset = new Date().getTimezoneOffset() / 60;
 			result = '';
 			
-			for (x = 0; x < count; x++) {
 		
-				var postdata = 	data[0].posts[x];
-				console.log(postdata)
+				for (i = 0; i < 3; i++) {
+					var finalObj = $.extend({}, data[0])
+				}
+				
+				
+		
+			for (x = 0; x < count; x++) {
+					
+				var postdata = data[0].posts[x];
+
+				
+				
+				postdata.index = x;
 
 				postdata.formattedpubDate = Date.create(postdata.timestamp).addHours("-"+GMTOffset).relative(function(value, unit, ms, loc) {
 				  if(ms.abs() > (1).day()) {
 				    return '{12hr}:{mm}{tt} - {Weekday} {d} {Month}, {yyyy}';
 				  }
 				});
-		
+					
 	              	result += this.template(postdata);
-	        }
-	
-			this.$el.prepend(result);
+	        }	
+			
+			this.$el.html('<div id="left" class="edge left" />'+
+			'<div id="topleft" class="edge topleft" />'+
+			'<div id="top" class="edge top" />' +
+			'<div id="topright" class="edge topright" />'+
+			'<div id="middle" class="middle" />'+
+			'<div id="right" class="edge right" />' +
+			'<div id="bottomright" class="edge bottomright" />'+
+			'<div id="bottom" class="edge bottom" />'+
+			'<div id="bottomleft" class="edge bottomleft" />');
+			
+
+			
+			this.$el.find("#middle").prepend(result);
+			
+			
+			this.$el.find("#left").prepend(result);
+			this.$el.find("#topleft").prepend(result);
+			this.$el.find("#top").prepend(result);
+			this.$el.find("#topright").prepend(result);
+			
+			this.$el.find("#right").prepend(result);
+			this.$el.find("#bottomright").prepend(result);
+			this.$el.find("#bottom").prepend(result);
+			this.$el.find("#bottomleft").prepend(result);
+			
 			this.loadPlugins();
 		} else {
 			$("#started").removeClass("appstarted");
@@ -76,18 +110,67 @@ var LargeView = Backbone.View.extend({
 				$("nav").addClass("hide");
 			},3000);
 			
+			
 			//freetile plugin
-			$(this.el).freetile({
+			$(this.el).find("#middle").freetile({
 				animate: true,
 				containerResize: 0,
 				elementDelay: 0,
 				callback: function() {
 					$(this.el).addClass("show");
 					
+					//position the edge containers for infinite effect
+					var mw = this.containerWidth;
+					var mh = $("#middle").height();
+					console.log(mw, mh)
+					
+					$("#left").css({
+						"-webkit-transform": "translate3d(-"+mw+"px,0,0)",
+						width: mw - 320,
+						height: mh
+						});
+					$("#topleft").css({
+						"-webkit-transform": "translate3d(-"+mw+"px,-"+mh+"px,0)",
+						width: mw - 320,
+						height: mh
+						});
+					$("#top").css({
+						"-webkit-transform": "translate3d(0,-"+mh+"px,0)",
+						width: mw,
+						height: mh
+						});
+					$("#topright").css({
+						"-webkit-transform": "translate3d("+mw+"px,-"+mh+"px,0)",
+						width: mw,
+						height: mh
+					});
+					$("#right").css({
+						"-webkit-transform": "translate3d("+mw+"px,0,0)",
+						width: mw,
+						height: mh
+						});
+					$("#bottomright").css({
+						"-webkit-transform": "translate3d("+mw+"px,"+mh+"px,0)",
+						width: mw,
+						height: mh
+						});
+					$("#bottom").css({
+						"-webkit-transform": "translate3d(0,"+mh+"px,0)",
+						width: mw,
+						height: mh
+						});
+					$("#bottomleft").css({
+						"-webkit-transform": "translate3d(-"+mw+"px,"+mh+"px,0)",
+						width: mw,
+						height: mh
+						});
+					
+						
+					
 					var randomHighlight = function(){
 						var number = data[0].posts.length;
 						var randomnumber = Math.ceil(Math.random()*number);
-						var item = $(".post:nth-child("+randomnumber+")");
+						var item = $("#middle").find(".post:nth-child("+randomnumber+")");
 						var position = item.position();
 						var offsetW = Math.floor(item.width() / 1.5);
 						var offsetH = Math.floor(item.height() / 2.5);
@@ -169,7 +252,8 @@ var smallView = Backbone.View.extend({
 			var count = data[0].posts.length;
 			var GMTOffset = new Date().getTimezoneOffset() / 60;
 			result = '';
-			for (x = 0; x < count; x++) {
+
+ 			for (x = 0; x < count; x++) {
 		
 				var postdata = 	data[0].posts[x];
 
@@ -228,6 +312,7 @@ var App = Backbone.Router.extend({
 		$("#started").addClass("appstarted");
 		$("#wrapper").removeClass("show");
 		$("nav").removeClass("hide");
+		
 		
         viz.fetch({
             success: function (model, response)

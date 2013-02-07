@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Tampa Bay Lightning</title>
+<title>SXSW</title>
 <link rel="stylesheet" type="text/css" media="Screen" href="css/screen.css?12345" />
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 </head>
@@ -15,12 +15,18 @@
 	<div id="started" class="started">App started, loading data...</div>
 	<div id="error" class="error">One moment please... The internet connection has been lost.</div>
 	
+	<div class="crosshairs">
+		<div class="vcross"></div>
+		<div class="hcross"></div>
+	</div>
+	
+	
 <!-- large templates -->
 <script id="large_tmpl" type="text/x-handlebars-template">
 	{{#if image}}
-		<div class="post" data-item="{{itemnumber}}">
+		<div class="post" data-item="{{index}}">
 	{{else}}
-		<div class="post noImage" data-item="{{itemnumber}}">
+		<div class="post noImage" data-item="{{index}}">
 	{{/if}}
 			<div class="user">
 				<img class="usericon" src="{{usericon}}" />
@@ -100,8 +106,9 @@
 <script src="scripts/jquery.freetile.min.js"></script>
 <script src="scripts/app.js"></script>
 
-<!-- manual progression
+
 	<div class="button">Click Me Large</div>
+<!-- manual progression
 	<div class="buttonsm">Click Me Small</div>
 -->
 </body>

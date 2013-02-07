@@ -1,0 +1,72 @@
+body{
+		font-family: Helvetica;
+	}
+	
+	#controls{
+		display: none;
+	}
+	
+	#data{
+		display: none;
+	}
+	
+	h3{
+	font-size:15px;
+	}
+	
+	.facebook_property{
+		width:150px;
+		height:250px;
+		background-color: #ccc;
+		border-radius: 10px;
+		float:left;
+		margin:5px;
+		padding:10px;
+		text-align: center;
+	}
+	
+	.img_holder{
+		 width:130; height:130; overflow:hidden;
+		 margin: 10px 0 0 10px;
+	}
+	
+	.img_holder img{
+		 width:130; height:auto;
+	}
+	
+	.facebook_property span, .facebook_property a{
+		font-size: 10px;
+	}
+	
+	span.name {
+	
+	}
+	
+	span.id {
+		
+	}
+	
+	span.likes {
+		text-indent:19px;
+		padding: 5px 0 0 18px;
+		background: url(img/like.png) no-repeat;
+		font-size:10px;
+		width:140px;
+	}
+	
+	span.link {
+	
+	}
+
+	a.remove {
+	
+	}
+	
+	.facebook_property a{
+		
+	}
+	
+	.error{
+		background-color:red;
+	}
+

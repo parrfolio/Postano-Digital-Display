@@ -195,6 +195,39 @@ background: #003D82 url("../images/bg.jpg") fixed no-repeat;
 background-size:100%;
 }
 
+/* crosshairs */
+.crosshairs {
+position:absolute;
+top:0;
+left:0;
+right:0;
+bottom:0;
+background:rgba(255,255,255,.3);
+z-index:1000;
+pointer-events:none;
+display:none;
+}
+
+.crosshairs .vcross {
+width:1px;
+background:red;
+position:absolute;
+left:50%;
+margin-left:-1px;
+top:0;
+bottom:0;
+}
+
+.crosshairs .hcross {
+height:1px;
+background:red;
+position:absolute;
+top:50%;
+margin-top:-1px;
+left:0;
+right:0;
+}
+
 /* large viz */
 .large {
 width:120%;
@@ -210,6 +243,19 @@ opacity:0;
 
 .large.show {
 opacity:1	
+}
+
+.large .edge, .middle {
+position:absolute;
+left:0;
+right:0;
+top:0;
+bottom:0;
+}
+
+.large .edge {
+-webkit-column-width: 320px;
+-webkit-column-gap:60px;
 }
 
 @-webkit-keyframes pulse {
@@ -242,7 +288,8 @@ margin: 30px 60px 30px 0;
 width:320px;
 }
 
-.large .post.tiled {
+.large .post.tiled,
+.large .edge .post {
 opacity:1;
 }
 
