@@ -134,14 +134,17 @@ var LargeView = Backbone.View.extend({
 						var left =  parseInt(item.css("left"), 10);
 						var top =  parseInt(item.css("top"), 10);
 						var offsetW = Math.floor(item.width() / 1.5);
-						var offsetH = Math.floor(item.height() / 2.5);
+						var offsetH = Math.floor(item.height() / 1.5);
 						var w = Math.round(($(window).width() / 2) - offsetW);
 						var h = Math.round(($(window).height() / 2) - offsetH);
 						var canvas = $("#main");
 						
 						
-						item.parents("#wrapper").removeClass("tiltRight");
-						item.parents("#wrapper").removeClass("tiltLeft");
+						item.parents("#wrapper").removeClass("topright");
+						item.parents("#wrapper").removeClass("topleft");
+						item.parents("#wrapper").removeClass("bottomright");
+						item.parents("#wrapper").removeClass("bottomleft");
+						item.parents("#wrapper").removeClass("zoom");
 						
 						$(".post").removeClass("alt");
 
@@ -154,7 +157,7 @@ var LargeView = Backbone.View.extend({
 								"-webkit-transform": "translate3d("+left+"px,"+top+"px,0)"
 							});
 							
-							item.parents("#wrapper").addClass("tiltLeft");
+							item.parents("#wrapper").addClass("topleft");
 							console.log("top left")
 						}
 
@@ -165,7 +168,7 @@ var LargeView = Backbone.View.extend({
 							canvas.css({
 								"-webkit-transform": "translate3d(-"+left+"px,"+top+"px,0)"
 							});
-							item.parents("#wrapper").addClass("tiltRight");
+							item.parents("#wrapper").addClass("topright");
 							console.log("top right")
 						}
 
@@ -177,7 +180,7 @@ var LargeView = Backbone.View.extend({
 								"-webkit-transform": "translate3d(-"+left+"px,-"+top+"px,0)"
 							});
 							
-							item.parents("#wrapper").addClass("tiltRight");
+							item.parents("#wrapper").addClass("bottomright");
 							console.log("bottom right")
 						}
 
@@ -189,7 +192,7 @@ var LargeView = Backbone.View.extend({
 								"-webkit-transform": "translate3d("+left+"px,-"+top+"px,0)"
 							});
 							
-							item.parents("#wrapper").addClass("tiltLeft");
+							item.parents("#wrapper").addClass("bottomleft");
 							console.log("bottom left")
 						}
 					
@@ -200,16 +203,18 @@ var LargeView = Backbone.View.extend({
 						function move() {
 							camera.removeEventListener("webkitTransitionEnd", move, false);
 									
-							setTimeout(function(){
 								
-								item.parents("#wrapper").removeClass("tiltRight");
-								item.parents("#wrapper").removeClass("tiltLeft");
-								item.addClass("alt");
-							}, 6000);
+								item.parents("#wrapper").removeClass("topright");
+								item.parents("#wrapper").removeClass("topleft");
+								item.parents("#wrapper").removeClass("bottomright");
+								item.parents("#wrapper").removeClass("bottomleft");
+								
+								item.parents("#wrapper").addClass("zoom");
+								//item.addClass("alt");
 							
 							setTimeout(function(){
 								$(".button").trigger("click");
-							}, 12000);
+							}, 6000);
 						}
 					}
 					
