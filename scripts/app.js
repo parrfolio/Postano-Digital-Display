@@ -139,14 +139,14 @@ var LargeView = Backbone.View.extend({
 						var h = Math.round(($(window).height() / 2) - offsetH);
 						var canvas = $("#main");
 						
-						
+						item.parents("#wrapper").removeClass("zoom");
 						item.parents("#wrapper").removeClass("topright");
 						item.parents("#wrapper").removeClass("topleft");
 						item.parents("#wrapper").removeClass("bottomright");
 						item.parents("#wrapper").removeClass("bottomleft");
-						item.parents("#wrapper").removeClass("zoom");
 						
-						$(".post").removeClass("alt");
+						
+						//$(".post").removeClass("focus");
 
 						// top left
 						if(left < w && top < h) {
@@ -199,34 +199,34 @@ var LargeView = Backbone.View.extend({
 						
 						var camera = $("#wrapper")[0];
 						camera.addEventListener("webkitTransitionEnd", move, false);
-
-						function move() {
+						
+						
+						var start = Date.now();  
+						var timer = 6000;
+						
+						function move(e) {
 							camera.removeEventListener("webkitTransitionEnd", move, false);
-									
-								
-								item.parents("#wrapper").removeClass("topright");
-								item.parents("#wrapper").removeClass("topleft");
-								item.parents("#wrapper").removeClass("bottomright");
-								item.parents("#wrapper").removeClass("bottomleft");
-								
-								item.parents("#wrapper").addClass("zoom");
-								//item.addClass("alt");
+							item.parents("#wrapper").removeClass("topright");
+							item.parents("#wrapper").removeClass("topleft");
+							item.parents("#wrapper").removeClass("bottomright");
+							item.parents("#wrapper").removeClass("bottomleft");
 							
-							setTimeout(function(){
-								$(".button").trigger("click");
-							}, 6000);
+							var progress = e.timeStamp - start;							
+
+							if (progress < timer) {
+								item.parents("#wrapper").addClass("zoom");
+								setTimeout(function(){
+									requestAnimationFrame(randomHighlight);
+								},timer);
+							}
 						}
 					}
 					
-					$(".button").on("click", function(){
-						randomHighlight();
-					});
-
-					$(".button").trigger("click");
+					window.requestAnimationFrame(randomHighlight);
 				}
 			});
-	}
-});
+		}
+	});
 
 
 var smallView = Backbone.View.extend({
