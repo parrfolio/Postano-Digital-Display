@@ -44,7 +44,7 @@ var LargeView = Backbone.View.extend({
 	    }); 
   	},
 	beforeRender: function() { 
-    	console.log('beforeRender'); 
+		$("#wrapper").wrap("<div id='container' class='container' />");
   	},
 	render: function () {
 		data = this.collection.toJSON();
@@ -80,30 +80,14 @@ var LargeView = Backbone.View.extend({
 	              	result += this.template(postdata);
 	        }	
 			
-			this.$el.html('<div id="left" class="edge left" />'+
-			'<div id="topleft" class="edge topleft" />'+
-			'<div id="top" class="edge top" />' +
-			'<div id="topright" class="edge topright" />'+
-			'<div id="middle" class="middle" />'+
-			'<div id="right" class="edge right" />' +
-			'<div id="bottomright" class="edge bottomright" />'+
-			'<div id="bottom" class="edge bottom" />'+
-			'<div id="bottomleft" class="edge bottomleft" />');
+			this.$el.html('<div id="left" class="board edge left" />'+
+			'<div id="middle" class="board middle" />'+
+			'<div id="right" class="board edge right" />');
 			
-
+			this.$el.find("#left").prepend(result).prepend(result).prepend(result);
+			this.$el.find("#middle").prepend(result).prepend(result).prepend(result);			
+			this.$el.find("#right").prepend(result).prepend(result).prepend(result);
 			
-			this.$el.find("#middle").prepend(result);
-			
-			
-			this.$el.find("#left").prepend(result);
-			this.$el.find("#topleft").prepend(result);
-			this.$el.find("#top").prepend(result);
-			this.$el.find("#topright").prepend(result);
-			
-			this.$el.find("#right").prepend(result);
-			this.$el.find("#bottomright").prepend(result);
-			this.$el.find("#bottom").prepend(result);
-			this.$el.find("#bottomleft").prepend(result);
 		} else {
 			$("#started").removeClass("appstarted");
 			$("#error").addClass("errorthrown");
@@ -111,136 +95,129 @@ var LargeView = Backbone.View.extend({
 		return this;
 	},
 	afterRender: function() {
-		
 			//hide/show elements
 			setTimeout(function(){
 				$("#wrapper").addClass("show");
 				$("#started").removeClass("appstarted");
 				$("nav").addClass("hide");
-			},3000);
-			
+			},3000); //3000
 			
 			//freetile plugin
 			$(this.el).find("#middle").freetile({
 				animate: true,
 				containerResize: 0,
 				elementDelay: 0,
-				callback: function() {
-					$(this.el).addClass("show");
-					
+				callback: function() {					
 					//position the edge containers for infinite effect
 					var mw = this.containerWidth;
 					var mh = $("#middle").height();
-					console.log(mw, mh)
 					
 					$("#left").css({
 						"-webkit-transform": "translate3d(-"+mw+"px,0,0)",
-						width: mw - 320,
-						height: mh
-						});
-					$("#topleft").css({
-						"-webkit-transform": "translate3d(-"+mw+"px,-"+mh+"px,0)",
-						width: mw - 320,
-						height: mh
-						});
-					$("#top").css({
-						"-webkit-transform": "translate3d(0,-"+mh+"px,0)",
 						width: mw,
 						height: mh
 						});
-					$("#topright").css({
-						"-webkit-transform": "translate3d("+mw+"px,-"+mh+"px,0)",
-						width: mw,
-						height: mh
-					});
+						
 					$("#right").css({
 						"-webkit-transform": "translate3d("+mw+"px,0,0)",
 						width: mw,
 						height: mh
 						});
-					$("#bottomright").css({
-						"-webkit-transform": "translate3d("+mw+"px,"+mh+"px,0)",
-						width: mw,
-						height: mh
-						});
-					$("#bottom").css({
-						"-webkit-transform": "translate3d(0,"+mh+"px,0)",
-						width: mw,
-						height: mh
-						});
-					$("#bottomleft").css({
-						"-webkit-transform": "translate3d(-"+mw+"px,"+mh+"px,0)",
-						width: mw,
-						height: mh
-						});
-					
 						
 					
 					var randomHighlight = function(){
 						var number = data[0].posts.length;
-						var randomnumber = Math.ceil(Math.random()*number);
+						var min = 1 //number;
+						var max = number * 3;
+						var randomnumber = Math.floor(Math.random() * (max - min + 1)) + min;
 						var item = $("#middle").find(".post:nth-child("+randomnumber+")");
-						var position = item.position();
+						var left =  parseInt(item.css("left"), 10);
+						var top =  parseInt(item.css("top"), 10);
 						var offsetW = Math.floor(item.width() / 1.5);
 						var offsetH = Math.floor(item.height() / 2.5);
 						var w = Math.round(($(window).width() / 2) - offsetW);
 						var h = Math.round(($(window).height() / 2) - offsetH);
 						var canvas = $("#main");
+						
+						
+						item.parents("#wrapper").removeClass("tiltRight");
+						item.parents("#wrapper").removeClass("tiltLeft");
+						
+						$(".post").removeClass("alt");
 
 						// top left
-						if(position.left < w && position.top < h) {
-							var top = Math.round(h - position.top);
-							var left = Math.round(w - position.left);
+						if(left < w && top < h) {
+							var top = Math.round(h - top);
+							var left = Math.round(w - left);
 
 							canvas.css({
 								"-webkit-transform": "translate3d("+left+"px,"+top+"px,0)"
 							});
+							
+							item.parents("#wrapper").addClass("tiltLeft");
+							console.log("top left")
 						}
 
 						//top right
-						if(position.left > w && position.top < h) {
-							var top = Math.round(h - position.top);
-							var left = Math.round(position.left - w);
+						if(left > w && top < h) {
+							var top = Math.round(h - top);
+							var left = Math.round(left - w);
 							canvas.css({
 								"-webkit-transform": "translate3d(-"+left+"px,"+top+"px,0)"
 							});
+							item.parents("#wrapper").addClass("tiltRight");
+							console.log("top right")
 						}
 
 						//bottom right
-						if(position.left > w && position.top > h) {
-							var top = Math.round(position.top - h);
-							var left = Math.round(position.left - w);
+						if(left > w && top > h) {
+							var top = Math.round(top - h);
+							var left = Math.round(left - w);
 							canvas.css({
 								"-webkit-transform": "translate3d(-"+left+"px,-"+top+"px,0)"
 							});
+							
+							item.parents("#wrapper").addClass("tiltRight");
+							console.log("bottom right")
 						}
 
 						//bottom left
-						if(position.left < w && position.top > h) {
-							var top = Math.round(position.top - h);
-							var left = Math.round(w - position.left);
+						if(left < w && top > h) {
+							var top = Math.round(top - h);
+							var left = Math.round(w - left);
 							canvas.css({
 								"-webkit-transform": "translate3d("+left+"px,-"+top+"px,0)"
 							});
+							
+							item.parents("#wrapper").addClass("tiltLeft");
+							console.log("bottom left")
 						}
+					
+						
+						var camera = $("#wrapper")[0];
+						camera.addEventListener("webkitTransitionEnd", move, false);
 
-							var el = canvas[0];
-							el.addEventListener("webkitTransitionEnd", updateTransition, true);
-
-
-
-							function updateTransition() {
-								$(".post").removeClass("alt");
-								item.addClass("alt");	
-							}
-
+						function move() {
+							camera.removeEventListener("webkitTransitionEnd", move, false);
+									
+							setTimeout(function(){
+								
+								item.parents("#wrapper").removeClass("tiltRight");
+								item.parents("#wrapper").removeClass("tiltLeft");
+								item.addClass("alt");
+							}, 6000);
+							
+							setTimeout(function(){
+								$(".button").trigger("click");
+							}, 12000);
+						}
 					}
-
-					largeTimer = setInterval(randomHighlight, 6000);
-
-					/*$(".button").on("click", function(){
+					
+					$(".button").on("click", function(){
 						randomHighlight();
-					});*/
+					});
+
+					$(".button").trigger("click");
 				}
 			});
 	}
