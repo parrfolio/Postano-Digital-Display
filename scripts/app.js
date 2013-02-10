@@ -84,9 +84,9 @@ var LargeView = Backbone.View.extend({
 			'<div id="middle" class="board middle" />'+
 			'<div id="right" class="board edge right" />');
 			
-			this.$el.find("#left").prepend(result).prepend(result).prepend(result);
+			this.$el.find("#left").prepend(result).prepend(result).prepend(result).prepend(result).prepend(result);
 			this.$el.find("#middle").prepend(result).prepend(result).prepend(result);			
-			this.$el.find("#right").prepend(result).prepend(result).prepend(result);
+			this.$el.find("#right").prepend(result).prepend(result).prepend(result).prepend(result).prepend(result);
 			
 		} else {
 			$("#started").removeClass("appstarted");
@@ -113,13 +113,13 @@ var LargeView = Backbone.View.extend({
 					var mh = $("#middle").height();
 					
 					$("#left").css({
-						"-webkit-transform": "translate3d(-"+mw+"px,0,0)",
+						"-webkit-transform": "translate3d(-"+(mw+30)+"px,0,0)",
 						width: mw,
 						height: mh
 						});
 						
 					$("#right").css({
-						"-webkit-transform": "translate3d("+mw+"px,0,0)",
+						"-webkit-transform": "translate3d("+(mw - 60)+"px,0,0)",
 						width: mw,
 						height: mh
 						});
