@@ -1,0 +1,63 @@
+define([
+	'backbone',
+	'views/HomeView',
+	'views/DukeLightningView',
+	'views/QuantumAvengerView',
+	'views/NotFoundView'
+], function(Backbone, HomeView, DukeLightningView, QuantumAvengerView, NotFoundView) {
+	return Backbone.Router.extend({
+		initialize: function(el) {
+			this.el = el;
+			
+			//default
+			this.homeView = new HomeView();
+			this.notFoundView = new NotFoundView();
+			
+			//custom
+			this.DukeLightningView = new DukeLightningView();
+			this.QuantumAvengerView = new QuantumAvengerView();
+			
+		},
+
+		routes: {
+			"": "home",
+			"DukeLightning": "DukeLightning",
+			"QuantumAvenger": "QuantumAvenger",
+			"*else": "notFound"
+		},
+
+		currentView: null,
+
+		switchView: function(view) {
+			if (this.currentView) {
+				// Detach the old view
+				// Empty the element and remove it from the DOM while preserving events
+				$(this.currentView.el).empty().detach();
+			}
+
+			// Move the view element into the DOM (replacing the old content)
+			this.el.html(view.el);
+
+			// Render view after it is in the DOM (styles are applied)
+			view.render();
+
+			this.currentView = view;
+		},
+
+		home: function() {
+			this.switchView(this.homeView);
+		},
+
+		notFound: function() {
+			this.switchView(this.notFoundView);
+		},
+		
+		DukeLightning: function() {
+			this.switchView(this.DukeLightningView);      
+		},
+
+		QuantumAvenger: function() {
+			this.switchView(this.QuantumAvengerView);
+		}
+	});
+});

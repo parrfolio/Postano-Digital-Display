@@ -27,6 +27,8 @@ var vizCollection = Backbone.Collection.extend({
 
 var viz = new vizCollection();
 
+
+
 // VIEWS =======================================================================
 var LargeView = Backbone.View.extend({
 	tagName: "section",
@@ -42,35 +44,34 @@ var LargeView = Backbone.View.extend({
 	      _this.afterRender(); 
 	      return _this; 
 	    }); 
+	
+	
   	},
 	beforeRender: function() { 
 		$("#wrapper").wrap("<div id='container' class='container' />");
   	},
 	render: function () {
+			
 		data = this.collection.toJSON();
+		
 
 		var haveData = (data[0].posts) ? data[0].posts.length : '';
+		
+		
 		
 		if(haveData != 0) {
 			var count = data[0].posts.length;
 			var GMTOffset = new Date().getTimezoneOffset() / 60;
 			result = '';
-			
-		
-				for (i = 0; i < 3; i++) {
-					var finalObj = $.extend({}, data[0])
-				}
-				
-				
 		
 			for (x = 0; x < count; x++) {
 					
 				var postdata = data[0].posts[x];
 
-				
-				
 				postdata.index = x;
-
+				
+				
+				
 				postdata.formattedpubDate = Date.create(postdata.timestamp).addHours("-"+GMTOffset).relative(function(value, unit, ms, loc) {
 				  if(ms.abs() > (1).day()) {
 				    return '{12hr}:{mm}{tt} - {Weekday} {d} {Month}, {yyyy}';
@@ -87,6 +88,8 @@ var LargeView = Backbone.View.extend({
 			this.$el.find("#left").prepend(result).prepend(result).prepend(result).prepend(result).prepend(result);
 			this.$el.find("#middle").prepend(result).prepend(result).prepend(result);			
 			this.$el.find("#right").prepend(result).prepend(result).prepend(result).prepend(result).prepend(result);
+			
+			
 			
 		} else {
 			$("#started").removeClass("appstarted");
@@ -298,6 +301,13 @@ var App = Backbone.Router.extend({
 		'large': 'large',
 		'small': 'small'
     },
+
+	errorImg: function(source) {
+		source.src = "../images/logo.jpg";
+		source.onerror = "";
+		return true;
+	},
+
     large: function ()
     {
 		$("#started").addClass("appstarted");

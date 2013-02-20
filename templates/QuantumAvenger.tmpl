@@ -1,0 +1,21 @@
+<div class="step slide" data-x="" data-y="" data-z="" data-rotate="" data-scale="">
+		<div class="spinergizerPost post">
+			<div class="user">
+				<img class="usericon" src="<%- usericon %>" />
+				<% if (source) { %>
+					<span class="username"><%- source.user_name %></span>
+				<% } %>
+			</div>
+			<% if (image) { %>
+				<div class="imgClip"><img class="postimg" src="<%- image %>" /></div>
+			<% } %>
+			<span class="title"><%- title %></span>
+			<span class="text"><%- text %></span>
+			<footer>
+				<% if (source) { %>
+					<span class="keyword"><%- source.keyword %></span>
+				<% } %>
+				<span class="date"><%- formattedpubDate %></span>
+			</footer>
+		</div>
+	</div>
