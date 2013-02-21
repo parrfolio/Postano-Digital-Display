@@ -215,7 +215,9 @@ overflow:hidden;
 -webkit-perspective: 1000px;
 -webkit-transform-style:preserve-3d;
 -webkit-backface-visibility: hidden;
-background: #444;
+background-color: #444;
+background: url("../images/black.png") repeat;
+background-size:38px 38px;
 }
 
 .dukeWrapper {
@@ -965,7 +967,9 @@ float:left;
 	left: 0;
 	bottom: 0;
 	right: 0;
-	background:#444;	
+	background-color: #444;
+	background: url("../images/black.png") repeat;
+	background-size:38px 38px;	
 }
 
 .impressWrapper{

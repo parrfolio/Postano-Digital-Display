@@ -3,8 +3,9 @@ define([
 	'views/HomeView',
 	'views/DukeLightningView',
 	'views/QuantumAvengerView',
+	'views/SinglePostView',
 	'views/NotFoundView'
-], function(Backbone, HomeView, DukeLightningView, QuantumAvengerView, NotFoundView) {
+], function(Backbone, HomeView, DukeLightningView, QuantumAvengerView, SinglePostView, NotFoundView) {
 	return Backbone.Router.extend({
 		initialize: function(el) {
 			this.el = el;
@@ -16,6 +17,7 @@ define([
 			//custom
 			this.DukeLightningView = new DukeLightningView();
 			this.QuantumAvengerView = new QuantumAvengerView();
+			this.SinglePostView = new SinglePostView();
 			
 		},
 
@@ -23,6 +25,7 @@ define([
 			"": "home",
 			"DukeLightning": "DukeLightning",
 			"QuantumAvenger": "QuantumAvenger",
+			"SinglePost": "SinglePost",
 			"*else": "notFound"
 		},
 
@@ -58,6 +61,10 @@ define([
 
 		QuantumAvenger: function() {
 			this.switchView(this.QuantumAvengerView);
+		},
+		
+		SinglePost: function() {
+			this.switchView(this.SinglePostView);
 		}
 	});
 });
