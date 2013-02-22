@@ -90,6 +90,10 @@ font-weight: normal;
 font-style: normal;
 }
 
+html, body {
+overflow:hidden;
+}
+
 html {
 font-size: 62.5%;
 height:100%;
@@ -218,6 +222,12 @@ overflow:hidden;
 background-color: #444;
 background: url("../images/black.png") repeat;
 background-size:38px 38px;
+-webkit-transition:all 650ms;
+opacity:0;
+}
+
+.dukeOuterWrapper.show {
+opacity:1;
 }
 
 .dukeWrapper {
@@ -1041,62 +1051,315 @@ float:left;
 	-webkit-transform: scale(1) !important; 
 }
 
+/* single post */
+.singlePostOuterWrapper {
+position:absolute;
+top:0;
+bottom:0;
+left:0;
+right:0;
+overflow:hidden;
+-webkit-perspective: 1000px;
+-webkit-transform-style:preserve-3d;
+-webkit-backface-visibility: hidden;
+background-color: #444;
+background: url("../images/black.png") repeat;
+background-size:38px 38px;
+}
+
+
+.singlePost {
+overflow: hidden;
+position:absolute;
+top:0;
+left:0;
+right:0;
+bottom:0;
+}
+
+@-webkit-keyframes pushZoom {
+    0% { -webkit-transform: scale(1); }	
+	25% { -webkit-transform: scale(1.3); }
+    100% { -webkit-transform: scale(1); }
+}
+
+.singlePost .post {
+position:absolute;
+top:0;
+left:0;
+right:0;
+bottom:0;
+opacity:0;
+color: white;
+text-shadow: 0 1px 1px black;
+box-shadow: 0 10px 100px black;
+-webkit-transition-property:all;
+-webkit-transition-duration:600ms;
+-webkit-transform: translate3d(0,0,0);
+-webkit-animation-name: pushZoom;
+-webkit-animation-duration: 420ms;
+-webkit-backface-visibility: visible!important;
+-webkit-animation-direction:forwards;
+-webkit-animation-play-state: paused;
+-webkit-animation-timing-function:ease-in-out;
+}
+
+.singlePost .post.on {
+opacity:1;
+-webkit-animation-play-state: running;
+}
+
+
+.singlePost .post.alt_1 {
+background:#397085;
+}
+
+.singlePost .post.alt_2 {
+background:#9FC089;
+}
+
+.singlePost .post.alt_3 {
+background:#FD7831;	
+}
+
+.singlePost .post.alt_4 {
+background:#E99F27;
+}
+
+.singlePost .post.alt_5 {
+background:#FFF8C6;
+}
+
+.singlePost .post.alt_6 {
+background:#8B1B15;
+}
+
+.singlePost .post.alt_7 {
+background:#FFD090;
+}
+
+.singlePost .post.alt_5,
+.singlePost .post.alt_7,
+.singlePost .post.alt_5 *,
+.singlePost .post.alt_7 *,
+.singlePost .post.alt_9 *,
+.singlePost .post.alt_9 {
+color:#333!important;
+text-shadow: 0 0 0 transparent!important;
+}
+
+.singlePost .post.alt_8 {
+background:#6E4B49;
+}
+
+.singlePost .post.alt_9 {
+background:#FDC406;
+}
+
+.singlePost .post a {
+color:#fff;
+}
+
+.singlePost .post.noImage.alt_5 a,
+.singlePost .post.noImage.alt_7 a,
+.singlePost .post.noImage.alt_9 a {
+color:#333;
+}
+
+.singlePost .post img.postimg {
+z-index: 1;
+margin: 0 auto 20px;
+display: block;
+max-width: 30%;
+width:100%;
+border: 10px solid white;
+rgb(249, 249, 249);
+}
+
+.singlePost .post .user {
+width: 100%;
+-webkit-box-sizing: border-box;
+box-sizing: border-box;
+z-index: 2;
+margin: 80px 0;
+}
+
+.singlePost .post.noImage .user {
+position: relative;
+top: auto;
+left: auto;
+float: none;
+margin: 0;
+max-width: 100%;
+display: block;
+margin:4% auto 0;
+}
+
+.singlePost .post .user .usericon {
+max-width: 90px;
+float: left;
+margin-right: 5px;
+border: 5px solid white;
+width: 100%;
+}
+
+
+.singlePost .post .user .usericon {
+float:none;
+text-align:center;
+}
+
+
+.singlePost .post .user .username {
+font-family: Medium;
+text-transform: uppercase;
+font-size: 3.4rem;
+line-height: 100px;
+padding-left: 5px;
+}
+
+.singlePost .post .user .username {
+vertical-align: bottom;
+display: inline-block;
+line-height: 110px;
+}
+
+
+.singlePost .post .content {
+z-index: 2;
+width:100%;
+height:100%;
+margin:0 auto;
+text-align: center;
+-webkit-box-sizing: border-box;
+box-sizing: border-box;
+font-size: 4rem;
+line-height: 1.2;
+font-family: Medium;
+z-index:3;
+position:relative;
+}
+
+.singlePost .post.noImage .content {
+	font-size:7rem;
+}
+
+.singlePost .post .content:before {
+content: '';
+display: inline-block;
+height: 100%;
+vertical-align: middle;
+}
+
+
+
+.singlePost .post .content .center {
+display: inline-block;
+vertical-align: middle;
+width: 80%;
+-webkit-border-box:padding-box;
+padding:20px;
+}
+
+.singlePost .post.hasImage .content .center .title {
+text-overflow: ellipsis;
+display: -webkit-box;
+-webkit-line-clamp: 2;
+-webkit-box-orient: vertical;
+overflow:hidden;
+}
+
+.singlePost .post.hasImage .content .center .text {
+text-overflow: ellipsis;
+display: -webkit-box;
+-webkit-line-clamp: 2;
+-webkit-box-orient: vertical;
+overflow:hidden;
+}
+
+.singlePost .post.hasImage .content .center .title *,
+.singlePost .post.hasImage .content .center .text * {
+	display:inline;
+}
+
+.singlePost .post footer {
+position: absolute;
+bottom: 0;
+width: 100%;
+-webkit-box-sizing: border-box;
+box-sizing: border-box;
+float: left;
+clear: both;
+margin: 3px 0 0;
+z-index: 3;
+padding: 20px;
+}
+
+.singlePost .post footer .date,
+.singlePost .post footer .keyword {
+line-height: 1;
+display: inline-block;
+font-size: 2.2rem;
+text-transform: uppercase;
+font-family: Medium;
+text-align: right;
+width:50%;
+float:right;
+}
+
+.singlePost .post footer .keyword {
+text-align:left;
+float:left;
+}
+
+
+
 /* messages */
 
-.started {
-	position:absolute;
-	left:50%;
-	width:480px;
-	margin-left:-240px;
-	background:#fff;
-	text-align:center;
-	box-shadow: 0 -1px 30px 5px rgba(0,0,0,.6);
-	font-family:Bold;
-	color:#222;
-	line-height:1.2;
-	font-size:22px;
-	z-index:1000;
-	padding:10px;
-	bottom:-100px;
-	-webkit-transition:all 600ms;
+.message {
+position: absolute;
+left: 50%;
+width: 470px;
+margin-left: -240px;
+background: #eee;
+text-align: center;
+box-shadow: 0 -1px 3px rgba(0, 0, 0, 1);
+font-family: Bold;
+color: rgb(34, 34, 34);
+line-height: 1.2;
+font-size: 22px;
+z-index: 1000;
+padding: 10px;
+bottom: -80px;
+-webkit-transition: all 600ms;
+border-radius: 3px 3px 0 0;
+font-family: Medium;
+font-size: 16px;
+font-weight: normal;
 }
 
-.error {
-	position:absolute;
-	left:50%;
-	width:480px;
-	margin-left:-240px;
-	background:#000;
-	text-align:center;
-	box-shadow: 0 -1px 30px 5px rgba(0,0,0,.6);
-	font-family:Bold;
-	color:#fff;
-	line-height:1.2;
-	font-size:22px;
-	z-index:1000;
-	padding:10px;
-	bottom:-100px;
-	-webkit-transition:all 600ms;
+.message.appstarted, .message.errorthrown {
+bottom:0;
 }
 
-.started.appstarted, .error.errorthrown {
-	bottom:0;
+.message.errorthrown {
+color:red;
 }
 
 
 /* debug */
 .button, .buttonsm {
-	width:100px;
-	height:50px;
-	background:#397085;
-	color:#fff;
-	text-align:center;
-	position:absolute;
-	top:0;
-	right:0;
-	z-index:10000;
-	font:14px/50px helvetica;
-	z-index:1000;
+width:100px;
+height:50px;
+background:#397085;
+color:#fff;
+text-align:center;
+position:absolute;
+top:0;
+right:0;
+z-index:10000;
+font:14px/50px helvetica;
+z-index:1000;
 }
 
 .button {

@@ -36,7 +36,7 @@ define([
 				// Detach the old view
 				// Empty the element and remove it from the DOM while preserving events
 				$(this.currentView.el).empty().detach();
-			}
+			}			
 
 			// Move the view element into the DOM (replacing the old content)
 			this.el.html(view.el);

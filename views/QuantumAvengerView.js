@@ -9,7 +9,7 @@ define([
 		id: "impress",
 		className: "show quantumAvenger",
 		initialize: function(options) { 
-			_.bindAll(this, 'beforeRender', 'render', 'afterRender'); 
+			_.bindAll(this, 'errorRender', 'beforeRender', 'render', 'afterRender'); 
 		    var _this = this;
 		    this.render = _.wrap(this.render, function(render) {
 			appData.fetch({
@@ -23,6 +23,10 @@ define([
 		      	return _this; 
 			}); 
 	  	},
+		errorRender: function() {
+			var _this = this;
+			alert("Opps, something is not right. Please refresh your browser.")
+		},
 		beforeRender: function() { 
 	  	},
 		render: function () {

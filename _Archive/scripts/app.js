@@ -287,9 +287,9 @@ var smallView = Backbone.View.extend({
 		}
 
 		smallTimer = setInterval(function() {
-			setSlideOpacity(x, 0);
-			x = (x === i)? 1 : x + 1;
-			setSlideOpacity(x, 1);
+					setSlideOpacity(x, 0);
+					x = (x === i)? 1 : x + 1;
+					setSlideOpacity(x, 1);
 		}, 6000);	
 
 	}

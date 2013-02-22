@@ -1,5 +1,5 @@
 require.config({
-	baseUrl: './',	
+	baseUrl: '/',	
 	shim: {
 	    underscore: {
 	      exports: '_'

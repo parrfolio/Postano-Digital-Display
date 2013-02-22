@@ -1,1 +1,47 @@
-<div>single post</div>
+<% if (image) { %>
+	<div class="post hasImage">
+		<div class="content">
+			<div class="center">
+				<% if (image) { %>
+					<img class="postimg" src="<%= image %>" />
+				<% } %>
+				<% if (title) { %>
+					<span class="title"><%= title %></span>
+				<% } %>
+				<% if (text) { %>
+					<span class="text"><%= text %></span>
+				<% } %>
+				<div class="user">
+					<img class="usericon" src="<%= usericon %>" />
+				<% if (source) { %>
+						<span class="username"><%= source.user_name %></span>
+				<% } %>
+				</div>
+			</div>
+		</div>
+<% } else { %>
+	<div class="post noImage">
+		<div class="content">
+			<div class="center">
+				<% if (title) { %>
+					<span class="title"><%= title %></span>
+				<% } %>
+				<% if (text) { %>
+					<span class="text"><%= text %></span>
+				<% } %>
+				<div class="user">
+					<img class="usericon" src="<%= usericon %>" />
+				<% if (source) { %>
+						<span class="username"><%= source.user_name %></span>
+				<% } %>
+				</div>
+			</div>
+		</div>
+<% } %>
+	<footer>
+		<% if (source) { %>
+			<span class="keyword"><%= source.keyword %></span>
+		<% } %>
+		<span class="date"><%= formattedpubDate %></span>
+	</footer>
+</div>

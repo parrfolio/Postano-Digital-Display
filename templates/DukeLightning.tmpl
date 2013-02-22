@@ -1,23 +1,23 @@
 <% if (image) { %>
-	<div class="post" data-item="<%- index %>">
+	<div class="post" data-item="<%= index %>">
 <% } else { %>
-	<div class="post noImage" data-item="<%- index %>">
+	<div class="post noImage" data-item="<%= index %>">
 <% } %>
 <div class="user">
-	<img class="usericon" src="<%- usericon %>" />
+	<img class="usericon" src="<%= usericon %>" />
 	<% if (source) { %>
-		<span class="username"><%- source.user_name %></span>
+		<span class="username"><%= source.user_name %></span>
 	<% } %>
 </div>
 <% if (image) { %>
-	<img class="postimg" src="<%- image %>" onerror="" />
+	<img class="postimg" src="<%= image %>" onerror="" />
 <% } %>
-<span class="title"><%- title %></span>
-<span class="text"><%- text %></span>
+<span class="title"><%= title %></span>
+<span class="text"><%= text %></span>
 <footer>
 	<% if (source) { %>
-		<span class="keyword"><%- source.keyword %></span>
+		<span class="keyword"><%= source.keyword %></span>
 	<% } %>
-	<span class="date"><%- formattedpubDate %></span>
+	<span class="date"><%= formattedpubDate %></span>
 </footer>
 </div>
