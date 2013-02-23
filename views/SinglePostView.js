@@ -94,6 +94,9 @@ define([
 			}
 			
 			window.requestAnimationFrame(highlight);
+
+			// refresh view
+			//setTimeout(_this.refreshView, 10000);
 		}
 	});
 	 return SinglePostView;

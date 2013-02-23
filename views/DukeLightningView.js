@@ -9,7 +9,7 @@ define([
 		id: "main",
 		className: "dukelightning",
 		initialize: function(options) { 
-			_.bindAll(this, 'errorRender', 'beforeRender', 'render', 'highlight', 'presentView', 'afterRender'); 
+			_.bindAll(this, 'errorRender', 'beforeRender', 'render', 'highlight', 'afterRender', 'refreshView', 'presentView'); 
 		    var _this = this;
 		    this.render = _.wrap(this.render, function(render) {
 			appData.fetch({
@@ -185,9 +185,52 @@ define([
 			}
 		},
 		
+		afterRender: function() {
+			var _this = this;
+			$(this.el).find("#middle").freetile({
+				animate: true,
+				containerResize: 0,
+				elementDelay: 0,
+				callback: function() {
+				
+				//position the edge containers for infinite effect
+				var elw = this.ElementWidth;
+				var ml = this.currentPos.length - 1;
+				var mw =  ml * elw;
+				var mh = this.ElementHeight + this.ElementTop;
+
+
+				$("#left").css({
+					"-webkit-transform": "translate3d(-"+(mw+30)+"px,0,0)",
+					width: mw,
+					height: mh
+					});
+
+				$("#right").css({
+					"-webkit-transform": "translate3d("+mw+"px,0,0)",
+					width: mw,
+					height: mh
+					});
+					_this.presentView();
+				}
+			});
+		},
+			
+		refreshView: function() {
+			var _this = this;
+			var newFragment = Backbone.history.getFragment($(this).attr('href'));
+		    if (Backbone.history.fragment == newFragment) {
+		        // need to null out Backbone.history.fragement because 
+		        // navigate method will ignore when it is the same as newFragment
+		        Backbone.history.fragment = null;
+		        Backbone.history.navigate(newFragment, true);
+		    }
+
+		},
+	
 		presentView: function() {
 			var _this = this;
-			
+
 			//present view
 			$("#outerWrapper").addClass("show");
 			
@@ -195,38 +238,10 @@ define([
 			setTimeout(function(){
 				window.requestAnimationFrame(_this.highlight);
 			}, 1200);
-		},
-		
-		afterRender: function() {
-			var _this = this;
-				$(this.el).find("#middle").freetile({
-					animate: true,
-					containerResize: 0,
-					elementDelay: 0,
-					callback: function() {
-						
-					//position the edge containers for infinite effect
-					var elw = this.ElementWidth;
-					var ml = this.currentPos.length - 1;
-					var mw =  ml * elw;
-					var mh = this.ElementHeight + this.ElementTop;
-
-
-					$("#left").css({
-						"-webkit-transform": "translate3d(-"+(mw+30)+"px,0,0)",
-						width: mw,
-						height: mh
-						});
-
-					$("#right").css({
-						"-webkit-transform": "translate3d("+mw+"px,0,0)",
-						width: mw,
-						height: mh
-						});
-						_this.presentView();
-					}
-				});
-			}
+			
+			//refresh view get new data
+			//setTimeout(_this.refreshView, 300000);
+		}
 	});
 	 return DukeLightningView;
 });
