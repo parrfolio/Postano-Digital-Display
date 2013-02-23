@@ -88,8 +88,8 @@ define([
 		highlight: function() {
 			var _this = this;
 			var number = (data[0].posts) ? data[0].posts.length : '0';
-			var min = 1 //number;
-			var max = number * 3;
+			var min = number //number;
+			var max = number * 2;
 			var randomnumber = Math.floor(Math.random() * (max - min + 1)) + min;
 			var item = $("#middle").find(".post:nth-child("+randomnumber+")");
 			var left =  parseInt(item.css("left"), 10);
@@ -206,8 +206,11 @@ define([
 					callback: function() {
 						
 					//position the edge containers for infinite effect
-					var mw = this.containerWidth;
-					var mh = $("#middle").height();
+					var elw = this.ElementWidth;
+					var ml = this.currentPos.length - 1;
+					var mw =  ml * elw;
+					var mh = this.ElementHeight + this.ElementTop;
+
 
 					$("#left").css({
 						"-webkit-transform": "translate3d(-"+(mw+30)+"px,0,0)",
@@ -216,11 +219,10 @@ define([
 						});
 
 					$("#right").css({
-						"-webkit-transform": "translate3d("+(mw - 60)+"px,0,0)",
+						"-webkit-transform": "translate3d("+mw+"px,0,0)",
 						width: mw,
 						height: mh
 						});
-						
 						_this.presentView();
 					}
 				});

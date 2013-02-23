@@ -33,9 +33,7 @@ define([
 
 		switchView: function(view) {
 			if (this.currentView) {
-				// Detach the old view
-				// Empty the element and remove it from the DOM while preserving events
-				$(this.currentView.el).empty().detach();
+				$(this.currentView.el).off().empty().detach().remove();
 			}			
 
 			// Move the view element into the DOM (replacing the old content)
