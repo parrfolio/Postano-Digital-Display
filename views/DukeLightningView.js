@@ -9,7 +9,7 @@ define([
 		id: "main",
 		className: "dukelightning",
 		initialize: function(options) { 
-			_.bindAll(this, 'errorRender', 'beforeRender', 'render', 'highlight', 'afterRender', 'refreshView', 'presentView'); 
+			_.bindAll(this, 'errorRender', 'beforeRender', 'render', 'highlight',  'afterRender', 'refreshView', 'presentView'); 
 		    var _this = this;
 		    this.render = _.wrap(this.render, function(render) {
 			appData.fetch({
@@ -36,6 +36,7 @@ define([
 			$("html,body").attr("style", "");
 			$(this.el).wrap("<div id='outerWrapper' class='dukeOuterWrapper' />");
 			$(this.el).wrap("<div id='wrapper' class='dukeWrapper' />");
+			//$(this.el).parents("body").append("<div id='button' class='button'> next </div>");
 	  	},
 		render: function () {
 			var _this = this;
@@ -59,7 +60,7 @@ define([
 
 					postdata.formattedpubDate = Date.create(postdata.timestamp).addHours("-"+GMTOffset).relative(function(value, unit, ms, loc) {
 					  if(ms.abs() > (1).day()) {
-					    return '{12hr}:{mm}{tt} - {Weekday} {d} {Month}, {yyyy}';
+					    return '{Weekday}';
 					  }
 					});
 						
@@ -99,7 +100,8 @@ define([
 			var w = Math.round(($(window).width() / 2) - offsetW);
 			var h = Math.round(($(window).height() / 2) - offsetH);
 			var canvas = $("#main");
-
+			
+			$(".post").removeClass("featured");
 			item.parents("#wrapper").removeClass("zoom");
 			item.parents("#wrapper").removeClass("topright");
 			item.parents("#wrapper").removeClass("topleft");
@@ -119,7 +121,7 @@ define([
 				});
 
 				item.parents("#wrapper").addClass("topleft");
-				//console.log("top left")
+				//console.log("top left", top, left)
 			}
 
 			//top right
@@ -130,7 +132,7 @@ define([
 					"-webkit-transform": "translate3d(-"+left+"px,"+top+"px,0)"
 				});
 				item.parents("#wrapper").addClass("topright");
-				//console.log("top right")
+				//console.log("top right", top, left)
 			}
 
 			//bottom right
@@ -142,7 +144,7 @@ define([
 				});
 
 				item.parents("#wrapper").addClass("bottomright");
-				//console.log("bottom right")
+				//console.log("bottom right", top, left)
 			}
 
 			//bottom left
@@ -154,7 +156,7 @@ define([
 				});
 
 				item.parents("#wrapper").addClass("bottomleft");
-				//console.log("bottom left")
+				//console.log("bottom left", top, left)
 			}
 
 
@@ -173,6 +175,7 @@ define([
 				item.parents("#wrapper").removeClass("topleft");
 				item.parents("#wrapper").removeClass("bottomright");
 				item.parents("#wrapper").removeClass("bottomleft");
+				
 
 				var progress = e.timeStamp - start;							
 
@@ -198,8 +201,7 @@ define([
 				var ml = this.currentPos.length - 1;
 				var mw =  ml * elw;
 				var mh = this.ElementHeight + this.ElementTop;
-
-
+			
 				$("#left").css({
 					"-webkit-transform": "translate3d(-"+(mw+30)+"px,0,0)",
 					width: mw,
@@ -211,6 +213,7 @@ define([
 					width: mw,
 					height: mh
 					});
+				
 					_this.presentView();
 				}
 			});
@@ -227,20 +230,26 @@ define([
 		    }
 
 		},
-	
+		
 		presentView: function() {
 			var _this = this;
-
+			
 			//present view
 			$("#outerWrapper").addClass("show");
 			
 			//start view
 			setTimeout(function(){
 				window.requestAnimationFrame(_this.highlight);
-			}, 1200);
+			}, 6000);
+			
+			
+			//debug button
+			/*$("#button").on('click', function(){
+				window.requestAnimationFrame(_this.highlight);
+			});*/
 			
 			//refresh view get new data
-			//setTimeout(_this.refreshView, 300000);
+			setTimeout(_this.refreshView, 300000);
 		}
 	});
 	 return DukeLightningView;

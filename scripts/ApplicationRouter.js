@@ -32,6 +32,20 @@ define([
 		currentView: null,
 
 		switchView: function(view) {
+			
+			//clear all timeouts and intervals from  views before removing them
+			var timeoutId = window.setTimeout(function() {}, 0);
+			while (timeoutId--) {
+			    window.clearTimeout(timeoutId); 
+			}
+			
+			
+			var intervalId = window.setInterval(function() {}, 0);
+			while (intervalId--) {
+			    window.clearInterval(intervalId);
+			}
+			
+			// unbind events, empty, detach then remove view
 			if (this.currentView) {
 				$(this.currentView.el).off().empty().detach().remove();
 			}			
