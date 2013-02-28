@@ -9,7 +9,7 @@ define([
 		id: "impress",
 		className: "show quantumAvenger",
 		initialize: function(options) { 
-			_.bindAll(this, 'errorRender', 'beforeRender', 'render', 'afterRender'); 
+			_.bindAll(this, 'errorRender', 'beforeRender', 'render', 'afterRender', 'refreshView', 'presentView'); 
 		    var _this = this;
 		    this.render = _.wrap(this.render, function(render) {
 			appData.fetch({
@@ -28,8 +28,10 @@ define([
 			alert("Opps, something is not right. Please refresh your browser.")
 		},
 		beforeRender: function() { 
+			$('#impress').wrap('<div id="impressOuterWrapper" class="impressOuterWrapper"/>');
 	  	},
 		render: function () {
+			var _this = this;
 			data = appData.toJSON();
 
 			var haveData = (data[0].posts) ? data[0].posts.length : '';
@@ -50,7 +52,7 @@ define([
 
 					postdata.formattedpubDate = Date.create(postdata.timestamp).addHours("-"+GMTOffset).relative(function(value, unit, ms, loc) {
 					  if(ms.abs() > (1).day()) {
-					    return '{12hr}:{mm}{tt} - {Weekday} {d} {Month}, {yyyy}';
+					    return '{Weekday}';
 					  }
 					});
 
@@ -60,7 +62,9 @@ define([
 		        }	
 
 
-				this.$el.prepend(result).prepend(result)
+				this.$el.prepend(result).prepend(result);
+				
+				_this.presentView();
 
 
 			} else {
@@ -105,8 +109,8 @@ define([
 						postloop.addClass("rotated180");
 						postloop.addClass("rotated");
 					}
-
-
+				
+				setTimeout(function(){
 					//freetile plugin
 					$("#impress").freetile({
 						animate: true,
@@ -196,7 +200,6 @@ define([
 							}); //main each function
 
 							//impress wrapper setup
-							$('#impress').wrap('<div id="impressOuterWrapper" class="impressOuterWrapper"/>');
 							$('#impress').wrap('<div id="impressWrapper" class="impressWrapper startHidden"/>');
 							$("#wrapper").addClass("show");
 							$('#impress').addClass("zoomIn");
@@ -211,15 +214,20 @@ define([
 								        transitionDuration: '2s', // Length of animation
 								    }
 								});				
-
-
+								
+								var isInit = $('#impress').jmpress('initialized');
+								
+								if(isInit) {
+									$("#impressOuterWrapper").addClass("show");	
+								}
+								
 								//find first step
 								startingStep = "#" + $("#impress").find(".myFirst").attr("id");
 								$('#impress').jmpress('goTo', startingStep);
 
 								setTimeout(function(){
 									$('#impressWrapper').removeClass("startHidden");
-								},3000);	
+								},0);	
 
 							},0);//impress init
 
@@ -286,7 +294,47 @@ define([
 					}); //freetile
 
 				},100); //main set timeout
+				}, 3000);
+
+					
 			
+			},
+			refreshView: function() {
+				var _this = this;
+				var change = '02/28/2013 11:42';
+				var today = new Date();
+				var curr_hour = today.getHours();
+				var curr_min = today.getMinutes();
+				var time = curr_hour + ":" + curr_min;
+				var dd = today.getDate();
+				var mm = today.getMonth()+1; //January is 0!
+				var yyyy = today.getFullYear();
+				if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} today = mm+'/'+dd+'/'+yyyy;
+
+				var dateTime = today + ' ' + time;
+
+				if (dateTime == change) {
+
+
+					//add domains here document.location.href = 'http://172.18.0.238:9036/#DukeLightning';
+
+					//Backbone.history.navigate('DukeLightning', true);	
+
+				} else {
+					var newFragment = Backbone.history.getFragment($(this).attr('href'));
+				    if (Backbone.history.fragment == newFragment) {
+				        // need to null out Backbone.history.fragement because 
+				        // navigate method will ignore when it is the same as newFragment
+				        Backbone.history.fragment = null;
+				        Backbone.history.navigate(newFragment, true);
+				    }
+
+				}
+			},
+			presentView: function() {
+				var _this = this;
+				//refresh view get new data
+				setTimeout(_this.refreshView, 300000); //300000
 			}
 	});
 	 return QuantumAvengerView;

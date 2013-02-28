@@ -63,7 +63,7 @@ class Postano
 }
 
 $api = new Postano( 'dd5dab1e31696d660d0d', 'xnwvTpc7Ox4uGErXoCg3755wTwbtqw5fvZBeIveE' );
-$res = $api->send_request( "GetPosts", '{ "postano_id":71840, count:50 }' );
+$res = $api->send_request( "GetPosts", '{ "postano_id":69157, count:50 }' );
 
 echo $res;
 ?>

@@ -15,7 +15,6 @@ define([
 		return '../postano_full.php';
 	}
   });
-	console.log("insideFull")
 	appDataFull = new postanoFullCollection();
 
 });
