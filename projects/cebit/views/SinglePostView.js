@@ -15,7 +15,6 @@ define([
 			appDataFull.fetch({
 	            success: function (model, response)
 	            {
-					console.log(response)
 			 	   _this.beforeRender(); 
 					render(); 
 					_this.afterRender();

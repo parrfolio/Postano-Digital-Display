@@ -38,6 +38,7 @@ define([
 			$(this.el).wrap("<div id='wrapper' class='dukeWrapper' />");
 			//$(this.el).parents("body").append("<div id='button' class='button'> next </div>");
 	  	},
+		
 		render: function () {
 			var _this = this;
 			
@@ -56,34 +57,6 @@ define([
 										
 					postdata.index = x;
 					
-					
-					
-					
-					/*function checkExists(imageUrl, callback) {
-					    var img = new Image();
-					
-						img.id = 'the id';
-						
-					    img.onerror = function() {
-					        callback(img, false);
-					    };
-
-					    img.onload = function() {
-					        callback(img, true);
-					    };
-
-					    img.src = imageUrl;
-					}
-					
-					checkExists(postdata.image, function(img, exists) {
-					    if(!exists) {
-							console.log(img.id)
-							
-					    }
-					});*/
-
-					
-
 					postdata.formattedpubDate = Date.create(postdata.timestamp).addHours("-"+GMTOffset).relative(function(value, unit, ms, loc) {
 					  if(ms.abs() > (1).day()) {
 					    return '{Weekday}';
@@ -255,6 +228,12 @@ define([
 		        Backbone.history.navigate(newFragment, true);
 		    }
 
+		},
+		
+		imageError: function(source) {
+			source.src = "../images/postano.jpg";
+			source.onerror = "";
+			return true;
 		},
 		
 		presentView: function() {

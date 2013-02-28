@@ -56,9 +56,6 @@ define([
 										
 					postdata.index = x;
 					
-					
-					
-					
 					/*function checkExists(imageUrl, callback) {
 					    var img = new Image();
 					

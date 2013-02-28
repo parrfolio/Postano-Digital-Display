@@ -62,8 +62,8 @@ class Postano
     }
 }
 
-$api = new Postano( 'f74c982c9b77651df1e4', 'VKrHLXK3k6FyPJkwhNkV48sUY0q8GhnlZI9LCmHN' );
-$res = $api->send_request( "GetPosts", '{ "postano_id":69157, count:50 }' );
+$api = new Postano( '4ffdec75166188c70bb8', '9WHGhzi4WIH1hIqxGwfQth8OLe+BHiPRLXjGQaeY' );
+$res = $api->send_request( "GetPosts", '{ "postano_id":71854, count:50 }' );
 
 echo $res;
 ?>
