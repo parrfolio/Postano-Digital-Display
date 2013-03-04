@@ -117,13 +117,34 @@ bottom:0;
 left:0;
 right:0;
 content:'';
-box-shadow: inset 0 0 400px 10px rgba(0,0,0,.35);
+box-shadow: inset 0 0 400px 10px rgba(0,0,0,.4);
 pointer-events:none;
 z-index:1000;
 }
 
 a {
 text-decoration:none;
+}
+
+/* logo banner */
+
+.postano {
+position: fixed;
+left: 0;
+right: 0;
+top: 0;
+height: 80px;
+background: black url("../images/postano.png") no-repeat 50px 50%;
+text-align: right;
+color: white;
+line-height: 80px;
+font-style: italic;
+font-size: 22px;
+-webkit-box-sizing: border-box;
+padding-right: 50px;
+z-index: 100000;
+-webkit-font-smoothing: subpixel-antialiased;
+box-shadow: 0 2px 10px rgba(0, 0, 0, .8);
 }
 
 /* navigation */
@@ -221,9 +242,8 @@ bottom:0;
 left:0;
 right:0;
 overflow:hidden;
--webkit-perspective: 1000px;
--webkit-transform-style:preserve-3d;
--webkit-backface-visibility: hidden;
+-webkit-perspective: 0;
+-webkit-transform-style: flat;
 background: #DA342E url("../images/bg.png") repeat;
 -webkit-transition:all 650ms;
 opacity:0;
@@ -233,41 +253,28 @@ opacity:0;
 opacity:1;
 }
 
-.dukeWrapper {
+.dukeOuterWrapper.show {
+opacity:1;
+}
+
+div[data-camera] {
 position:absolute;
 top:0;
 left:0;
 right:0;
 bottom:0;
 z-index: 3;
--webkit-transform-style:preserve-3d;
 -webkit-transition-property:-webkit-transform;
--webkit-transform: translate3d(0,0,-600px) rotateY(0deg) rotateX(0deg) rotateZ(0deg);
--webkit-transition-duration:5s;
--webkit-transition-timing-function: cubic-bezier(0.455, 0.030, 0.515, 0.955); /* easeInOutQuad */
+-webkit-transform: translate3d(0,0,0) scale(.5);
+-webkit-transition-duration:10s;
+-webkit-transform-origin: center center;
 -webkit-backface-visibility: hidden;
+-webkit-transform-style: flat;
 }
 
-.dukeWrapper.zoom {
--webkit-transform-style:preserve-3d;
--webkit-transition-duration:1.5s;
--webkit-transform: translate3d(0,0,250px) rotateY(0) rotateX(0deg) rotateX(0deg);
-}
-
-.dukeWrapper.topleft {
--webkit-transform: translate3d(0,0,-400px) rotateY(-15deg) rotateX(-15deg) rotateZ(-15deg);
-}
-
-.dukeWrapper.topright {
--webkit-transform: translate3d(0,0,-400px) rotateY(-15deg) rotateX(15deg) rotateZ(15deg);
-}
-
-.dukeWrapper.bottomright {
--webkit-transform: translate3d(0,0,-400px) rotateY(15deg) rotateX(15deg) rotateZ(15deg);
-}
-
-.dukeWrapper.bottomleft {
--webkit-transform: translate3d(0,0,-400px) rotateY(15deg) rotateX(-15deg) rotateZ(-15deg);
+div[data-camera].zoom {
+-webkit-transition-duration:4s;
+-webkit-transform: translate3d(0,0,0) scale(1);
 }
 
 .dukelightning {
@@ -277,16 +284,10 @@ left:0;
 right:0;
 bottom:0;
 top:0;
--webkit-transform-style:preserve-3d;
--webkit-transform: translate3d(0,0,100px);
--webkit-transition-property: -webkit-transform;
--webkit-transition-duration: 5s;
--webkit-transition-timing-function: cubic-bezier(0.455, 0.030, 0.515, 0.955); /* easeInOutQuad */
--webkit-backface-visibility: hidden;
-}
-
-.dukelightning.show {
-
+-webkit-transform: translate3d(0,0,0);
+-webkit-transition-property:-webkit-transform;
+-webkit-transition-duration: 10s;
+-webkit-backface-visibility: visible;
 }
 
 .dukelightning .board {
@@ -305,8 +306,8 @@ z-index:2;
 }
 
 .dukelightning .edge {
--webkit-column-width: 320px;
--webkit-column-gap:40px;
+-webkit-column-width: 640px;
+-webkit-column-gap:60px;
 display:block;
 overflow:hidden;
 }
@@ -319,7 +320,7 @@ background:rgb(227,227,227);
 display: block;
 word-wrap: break-word;
 margin: 30px 60px 30px 0;
-width:320px;
+width:640px;
 color:#DA342E;
 box-shadow: 0 0 0 0 transparent;
 -webkit-backface-visibility: hidden;
@@ -330,6 +331,15 @@ box-shadow: 0 0 0 0 transparent;
 -webkit-transition-delay:300ms;
 overflow:hidden;
 opacity:.9;
+}
+
+/* image error */
+.dukelightning .post.hide {
+display:none!important;
+}
+
+.dukelightning .post.on {
+background:#fff;
 }
 
 .dukelightning .post.featured {
@@ -356,9 +366,9 @@ width:100%;
 margin-bottom: 0;
 display: block;
 font-family: Light;
-font-size: 2rem;
+font-size: 4rem;
 text-align: center;
-line-height: 1;
+line-height: 1.2;
 width: 90%;
 margin: 0 auto 20px;
 text-overflow: ellipsis;
@@ -380,8 +390,7 @@ text-align: center;
 width: 100%;
 -webkit-box-sizing: border-box;
 padding: 0;
-line-height: 1.2;
-font-size: 1.6rem;
+font-size: 4rem;
 line-height: 1.4;
 float: left;
 clear: both;
@@ -428,7 +437,7 @@ margin-right:5px;
 font-family: Medium;
 color: #fff;
 text-transform: uppercase;
-font-size: 1.4rem;
+font-size: 2rem;
 line-height: 30px;
 padding-left: 5px;
 text-shadow:0 1px 1px #000;
@@ -449,7 +458,7 @@ margin: 3px 0 0;
 .dukelightning .post footer .keyword {
 line-height: 1;
 display: inline-block;
-font-size: 1.2rem;
+font-size: 2.0rem;
 text-transform: uppercase;
 font-family: Light;
 text-align: right;

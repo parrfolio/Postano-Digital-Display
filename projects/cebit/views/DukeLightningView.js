@@ -18,7 +18,6 @@ define([
 					if(!response.error_message) {
 				 	   _this.beforeRender(); 
 						render();
-						_this.highlight();
 					} else {
 						_this.errorRender();
 					}
@@ -35,10 +34,9 @@ define([
 		beforeRender: function() {
 			$("html,body").attr("style", "");
 			$(this.el).wrap("<div id='outerWrapper' class='dukeOuterWrapper' />");
-			$(this.el).wrap("<div id='wrapper' class='dukeWrapper' />");
+			$(this.el).wrap("<div id='wrapper' data-camera='on' />");
 			//$(this.el).parents("body").append("<div id='button' class='button'> next </div>");
 	  	},
-		
 		render: function () {
 			var _this = this;
 			
@@ -57,9 +55,37 @@ define([
 										
 					postdata.index = x;
 					
+					/*function checkExists(imageUrl, callback) {
+					    var img = new Image();
+					
+						img.id = 'the id';
+						
+					    img.onerror = function() {
+					        callback(img, false);
+					    };
+
+					    img.onload = function() {
+					        callback(img, true);
+					    };
+
+					    img.src = imageUrl;
+					}
+					
+					checkExists(postdata.image, function(img, exists) {
+					    if(!exists) {
+							console.log(img.id)
+					    }
+					});*/
+					
+					var classes = ['alt_1', 'alt_2', 'alt_3', 'alt_4', 'alt_5', 'alt_5', 'alt_6', 'alt_7', 'alt_8', 'alt_9', 'alt_10'];
+
+					postdata.box = classes[Math.floor(Math.random()*classes.length)];
+
+					
+
 					postdata.formattedpubDate = Date.create(postdata.timestamp).addHours("-"+GMTOffset).relative(function(value, unit, ms, loc) {
 					  if(ms.abs() > (1).day()) {
-					    return '{Weekday}';
+					    return '{Weekday} at {12hr}:{mm}{tt}';
 					  }
 					});
 						
@@ -99,16 +125,11 @@ define([
 			var w = Math.round(($(window).width() / 2) - offsetW);
 			var h = Math.round(($(window).height() / 2) - offsetH);
 			var canvas = $("#main");
+			var camera = document.getElementById("wrapper");
 			
-			$(".post").removeClass("featured");
-			item.parents("#wrapper").removeClass("zoom");
-			item.parents("#wrapper").removeClass("topright");
-			item.parents("#wrapper").removeClass("topleft");
-			item.parents("#wrapper").removeClass("bottomright");
-			item.parents("#wrapper").removeClass("bottomleft");
-
-
-			//$(".post").removeClass("focus");
+			$(".post").removeClass("on");
+			
+			$(camera).removeClass();
 
 			// top left
 			if(left < w && top < h) {
@@ -118,9 +139,6 @@ define([
 				canvas.css({
 					"-webkit-transform": "translate3d("+left+"px,"+top+"px,0)"
 				});
-
-				item.parents("#wrapper").addClass("topleft");
-				//console.log("top left", top, left)
 			}
 
 			//top right
@@ -130,8 +148,6 @@ define([
 				canvas.css({
 					"-webkit-transform": "translate3d(-"+left+"px,"+top+"px,0)"
 				});
-				item.parents("#wrapper").addClass("topright");
-				//console.log("top right", top, left)
 			}
 
 			//bottom right
@@ -141,9 +157,6 @@ define([
 				canvas.css({
 					"-webkit-transform": "translate3d(-"+left+"px,-"+top+"px,0)"
 				});
-
-				item.parents("#wrapper").addClass("bottomright");
-				//console.log("bottom right", top, left)
 			}
 
 			//bottom left
@@ -153,35 +166,25 @@ define([
 				canvas.css({
 					"-webkit-transform": "translate3d("+left+"px,-"+top+"px,0)"
 				});
-
-				item.parents("#wrapper").addClass("bottomleft");
-				//console.log("bottom left", top, left)
 			}
-
-
-			var camera = $("#wrapper")[0];
 			
 			if(camera) {
 				camera.addEventListener("webkitTransitionEnd", move, false);	
 			}
 			
-			var start = Date.now();  
 			var timer = 6000;
-
+			
 			function move(e) {
-				camera.removeEventListener("webkitTransitionEnd", move, false);
-				item.parents("#wrapper").removeClass("topright");
-				item.parents("#wrapper").removeClass("topleft");
-				item.parents("#wrapper").removeClass("bottomright");
-				item.parents("#wrapper").removeClass("bottomleft");
-				
+				if(e.propertyName === "-webkit-transform") {
+					
+					camera.removeEventListener("webkitTransitionEnd", move, false);
+					
+					$(camera).removeClass().addClass("zoom");
+					
+					item.addClass("on");
 
-				var progress = e.timeStamp - start;							
-
-				if (progress < timer) {
-					item.parents("#wrapper").addClass("zoom");
 					setTimeout(function(){
-						requestAnimationFrame(_this.highlight);
+						window.requestAnimationFrame(_this.highlight);
 					},timer);
 				}
 			}
@@ -220,20 +223,35 @@ define([
 			
 		refreshView: function() {
 			var _this = this;
-			var newFragment = Backbone.history.getFragment($(this).attr('href'));
-		    if (Backbone.history.fragment == newFragment) {
-		        // need to null out Backbone.history.fragement because 
-		        // navigate method will ignore when it is the same as newFragment
-		        Backbone.history.fragment = null;
-		        Backbone.history.navigate(newFragment, true);
-		    }
+			var change = '02/28/2013 11:42';
+			var today = new Date();
+			var curr_hour = today.getHours();
+			var curr_min = today.getMinutes();
+			var time = curr_hour + ":" + curr_min;
+			var dd = today.getDate();
+			var mm = today.getMonth()+1; //January is 0!
+			var yyyy = today.getFullYear();
+			if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} today = mm+'/'+dd+'/'+yyyy;
 
-		},
-		
-		imageError: function(source) {
-			source.src = "../images/postano.jpg";
-			source.onerror = "";
-			return true;
+			var dateTime = today + ' ' + time;
+
+			if (dateTime == change) {
+				
+				
+				//add domains here document.location.href = 'http://172.18.0.238:9036/#DukeLightning';
+				
+				//Backbone.history.navigate('DukeLightning', true);	
+				
+			} else {
+				var newFragment = Backbone.history.getFragment($(this).attr('href'));
+			    if (Backbone.history.fragment == newFragment) {
+			        // need to null out Backbone.history.fragement because 
+			        // navigate method will ignore when it is the same as newFragment
+			        Backbone.history.fragment = null;
+			        Backbone.history.navigate(newFragment, true);
+			    }
+
+			}
 		},
 		
 		presentView: function() {
@@ -244,17 +262,16 @@ define([
 			
 			//start view
 			setTimeout(function(){
-				window.requestAnimationFrame(_this.highlight);
+				_this.highlight();
 			}, 6000);
-			
-			
+		
 			//debug button
 			/*$("#button").on('click', function(){
-				window.requestAnimationFrame(_this.highlight);
+				_this.highlight();
 			});*/
 			
 			//refresh view get new data
-			setTimeout(_this.refreshView, 300000);
+			setTimeout(_this.refreshView, 300000); //300000
 		}
 	});
 	 return DukeLightningView;
